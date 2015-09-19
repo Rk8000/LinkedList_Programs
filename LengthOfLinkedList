@@ -1,1 +1,175 @@
+/**
+ * The Node class creates node of the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+
+class Node {
+
+    int data;
+    Node pointer;
+
+    Node(int data){
+        this.data = data;
+        this.pointer = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getPointer() {
+        return pointer;
+    }
+
+    public void setPointer(Node pointer) {
+        this.pointer = pointer;
+    }
+}
+
+/**
+ * The LengthOfLinkedList class is to create the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+class LengthOfLinkedList{
+    Node head;
+
+    /**
+     * Function to print the Linked List
+     * @param
+     * @return void
+     */
+    public void printLinkedList(){
+        Node temp = head;
+        while( temp!= null){
+            System.out.println(temp.getData());
+            temp = temp.pointer;
+        }
+    }
+
+    /**
+     * Function to adding a node to the head of the Linked List
+     * @param  data
+     * @return void
+     */
+    public void addingNodeToHead(int data){
+        Node newNode = new Node(data);
+        newNode.setPointer(head);
+        head = newNode;
+    }
+
+    /**
+     * Function to adding a node to a specific position of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToMiddle(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(previousNode.pointer);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to adding a node to the end of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToEnd(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(null);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to delete the node of the LinkedList
+     * @param  data
+     * @return void
+     */
+    public void deletingNode(int data){
+        Node previous = null;
+        Node temp = head;
+        int notPresent =0;
+        while( temp!=null){
+            if( temp.getData() == data){
+                notPresent =1;
+                break;
+            }
+            previous = temp;
+            temp = temp.pointer;
+        }
+        if( notPresent ==0){
+            System.out.println("The Node is not present in the linkedList");
+        }
+        else {
+            if ( previous == null){
+                head = temp.getPointer();
+                temp.setPointer(null);
+            }
+            else {
+                previous.setPointer(temp.getPointer());
+                temp.setPointer(null);
+            }
+        }
+    }
+
+    /**
+     * Function to find the length of LinkedList using Iteration
+     * @param
+     * @return void
+     */
+    public void lengthOfLinkedListIterative(){
+        int count =0;
+        Node temp = head;
+        while( temp!= null){
+            count++;
+            temp = temp.pointer;
+        }
+        System.out.println("Length of the linked list using Iteration  "+ count);
+    }
+
+    /**
+     * Function to find the length of LinkedList using Recursion
+     * @param  head, count
+     * @return int
+     */
+    public  int lengthOfLinkedListRecursive(Node head, int count){
+        if( head == null){
+            return count;
+        }
+        else {
+            count++;
+            head = head.pointer;
+            return lengthOfLinkedListRecursive(head, count);
+        }
+    }
+
+    /**
+     * The main method begins execution of the tests.
+     *
+     * @param args not used
+     */
+    public static void main(String[] args) {
+        LengthOfLinkedList myList = new LengthOfLinkedList();
+        myList.addingNodeToHead(20);
+        myList.addingNodeToHead(10);
+        myList.addingNodeToHead(40);
+        myList.addingNodeToMiddle(50, myList.head.pointer.pointer);
+        myList.addingNodeToEnd(70, myList.head.pointer.pointer.pointer);
+        myList.deletingNode(40);
+        myList.deletingNode(50);
+        myList.printLinkedList();
+        myList.lengthOfLinkedListIterative();
+        int length = myList.lengthOfLinkedListRecursive(myList.head, 0);
+        System.out.println("Length of the linked list using Recursion  "+ length);
+    }
+}
 
