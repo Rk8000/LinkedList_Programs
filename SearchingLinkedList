@@ -1,0 +1,207 @@
+
+/**
+ * The Node class creates node of the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+
+class Node {
+
+    int data;
+    Node pointer;
+
+    Node(int data){
+        this.data = data;
+        this.pointer = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getPointer() {
+        return pointer;
+    }
+
+    public void setPointer(Node pointer) {
+        this.pointer = pointer;
+    }
+}
+
+/**
+ * The SearchingLinkedList class is to create the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+class SearchingLinkedList{
+    Node head;
+
+    /**
+     * Function to print the Linked List
+     * @param
+     * @return void
+     */
+    public void printLinkedList(){
+        Node temp = head;
+        while( temp!= null){
+            System.out.println(temp.getData());
+            temp = temp.pointer;
+        }
+    }
+
+    /**
+     * Function to adding a node to the head of the Linked List
+     * @param  data
+     * @return void
+     */
+    public void addingNodeToHead(int data){
+        Node newNode = new Node(data);
+        newNode.setPointer(head);
+        head = newNode;
+    }
+
+    /**
+     * Function to adding a node to a specific position of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToMiddle(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(previousNode.pointer);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to adding a node to the end of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToEnd(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(null);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to delete the node of the LinkedList
+     * @param  data
+     * @return void
+     */
+    public void deletingNode(int data){
+        Node previous = null;
+        Node temp = head;
+        int notPresent =0;
+        while( temp!=null){
+            if( temp.getData() == data){
+                notPresent =1;
+                break;
+            }
+            previous = temp;
+            temp = temp.pointer;
+        }
+        if( notPresent ==0){
+            System.out.println("The Node is not present in the linkedList");
+        }
+        else {
+            if ( previous == null){
+                head = temp.getPointer();
+                temp.setPointer(null);
+            }
+            else {
+                previous.setPointer(temp.getPointer());
+                temp.setPointer(null);
+            }
+        }
+    }
+
+    /**
+     * Function to find if an element is present in the LinkedList using Iteration
+     * @param  data
+     * @return void
+     */
+    public void searchingUsingIteration(int data){
+        Node temp = head;
+        int notPresent =0;
+        while( temp!=null){
+            if( temp.getData() == data){
+                notPresent =1;
+                break;
+            }
+            temp = temp.pointer;
+        }
+        if( notPresent ==0){
+            System.out.println("The Node is not present in the linkedList using Iteration method!");
+        }
+        else {
+            System.out.println("The Node is present in the linkedList using Iteration method!");
+        }
+    }
+
+    /**
+     * Function to find if an element is present in the LinkedList using Recursion
+     * @param  head, data
+     * @return boolean
+     */
+    public boolean searchingUsingRecursion(Node head,int data){
+        if( head ==null){
+            return false;
+        }
+        if( head.getData() == data){
+            return true;
+        }
+        else {
+            head = head.pointer;
+            return searchingUsingRecursion(head, data);
+        }
+    }
+
+    /**
+     * Function to find an element based on index position
+     * @param  head, index
+     * @return void
+     */
+    public void GetNthNode(Node head, int index){
+        int count=0;
+        Node temp = head;
+        while( temp!=null){
+            if( count == index) {
+                System.out.println(temp.getData());
+            }
+            count++;
+            temp = temp.pointer;
+        }
+    }
+    /**
+     * The main method begins execution of the tests.
+     *
+     * @param args not used
+     */
+    public static void main(String[] args) {
+        SearchingLinkedList myList = new SearchingLinkedList();
+        myList.addingNodeToHead(20);
+        myList.addingNodeToHead(10);
+        myList.addingNodeToHead(40);
+        myList.addingNodeToMiddle(50, myList.head.pointer.pointer);
+        myList.addingNodeToEnd(70, myList.head.pointer.pointer.pointer);
+        myList.deletingNode(40);
+        myList.deletingNode(50);
+        myList.printLinkedList();
+        myList.searchingUsingIteration(60);
+        boolean result = myList.searchingUsingRecursion(myList.head, 60);
+        if( result){
+            System.out.println("The Node is present in the linkedList using recursion method!");
+        } else {
+            System.out.println("The Node is not present in the linkedList using recursion method!");
+        }
+
+        myList.GetNthNode(myList.head, 9);
+    }
+}
