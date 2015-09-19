@@ -1,0 +1,157 @@
+
+/**
+ * The Node class creates node of the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+
+class Node {
+
+    int data;
+    Node pointer;
+
+    Node(int data){
+        this.data = data;
+        this.pointer = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getPointer() {
+        return pointer;
+    }
+
+    public void setPointer(Node pointer) {
+        this.pointer = pointer;
+    }
+}
+
+/**
+ * The SearchingLinkedList class is to create the Linked List
+ *
+ * @author  Ravi Kumar Singh
+ * @version 1.0
+ * @since   2015-04-06
+ */
+class FindingMiddleElement{
+    Node head;
+
+    /**
+     * Function to print the Linked List
+     * @param
+     * @return void
+     */
+    public void printLinkedList(){
+        Node temp = head;
+        while( temp!= null){
+            System.out.println(temp.getData());
+            temp = temp.pointer;
+        }
+    }
+
+    /**
+     * Function to adding a node to the head of the Linked List
+     * @param  data
+     * @return void
+     */
+    public void addingNodeToHead(int data){
+        Node newNode = new Node(data);
+        newNode.setPointer(head);
+        head = newNode;
+    }
+
+    /**
+     * Function to adding a node to a specific position of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToMiddle(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(previousNode.pointer);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to adding a node to the end of the Linked List
+     * @param  data, PreviousNode
+     * @return void
+     */
+    public  void addingNodeToEnd(int data, Node previousNode){
+        Node newNode = new Node(data);
+        newNode.setPointer(null);
+        previousNode.setPointer(newNode);
+    }
+
+    /**
+     * Function to delete the node of the LinkedList
+     * @param  data
+     * @return void
+     */
+    public void deletingNode(int data){
+        Node previous = null;
+        Node temp = head;
+        int notPresent =0;
+        while( temp!=null){
+            if( temp.getData() == data){
+                notPresent =1;
+                break;
+            }
+            previous = temp;
+            temp = temp.pointer;
+        }
+        if( notPresent ==0){
+            System.out.println("The Node is not present in the linkedList");
+        }
+        else {
+            if ( previous == null){
+                head = temp.getPointer();
+                temp.setPointer(null);
+            }
+            else {
+                previous.setPointer(temp.getPointer());
+                temp.setPointer(null);
+            }
+        }
+    }
+
+    public void findingMiddleElement(){
+        Node slowPointer = head;
+        Node fastPointer = head;
+        while(fastPointer.getPointer()!= null ){
+            slowPointer = slowPointer.getPointer();
+            if( fastPointer.getPointer().getPointer()!=null) {
+                fastPointer = fastPointer.getPointer().getPointer();
+            }else {
+                fastPointer = fastPointer.getPointer();
+            }
+        }
+        System.out.println("middle element " + slowPointer.getData());
+    }
+
+
+    /**
+     * The main method begins execution of the tests.
+     *
+     * @param args not used
+     */
+    public static void main(String[] args) {
+        FindingMiddleElement myList = new FindingMiddleElement();
+        myList.addingNodeToHead(20);
+        myList.addingNodeToHead(10);
+        myList.addingNodeToHead(40);
+        myList.addingNodeToMiddle(50, myList.head.pointer.pointer);
+        myList.addingNodeToEnd(70, myList.head.pointer.pointer.pointer);
+       // myList.deletingNode(40);
+        //myList.deletingNode(50);
+        myList.printLinkedList();
+        myList.findingMiddleElement();
+    }
+}
